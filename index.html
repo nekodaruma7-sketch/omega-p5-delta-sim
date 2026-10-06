@@ -3,106 +3,76 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>絶オメガ P5 デルタ練習</title>
+<title>絶オメガ P5 デルタ｜ハムカツ式</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:#101217;color:#eee;font-family:system-ui,-apple-system,sans-serif;height:100%;overflow:hidden}
-#app{height:100dvh;display:flex;flex-direction:column;max-width:700px;margin:auto}
-header{padding:10px 14px 6px;background:#171a21;display:flex;justify-content:space-between;align-items:center}
-h1{font-size:16px;margin:0}.sub{font-size:11px;color:#9ba3b4}
-#hud{display:flex;gap:7px;align-items:center;padding:6px 10px;background:#171a21}
-.badge{padding:4px 7px;border-radius:5px;background:#292e3a;font-size:11px}
-#phase{flex:1;text-align:center;font-weight:700;font-size:13px}
-button{border:0;border-radius:7px;background:#343b4a;color:#fff;padding:8px 11px;font-weight:700}
-button:active{transform:scale(.97)}
-#arenaWrap{flex:1;display:flex;align-items:center;justify-content:center;padding:8px;min-height:0}
-#arena{position:relative;width:min(92vw,620px);aspect-ratio:1/1;border:2px solid #687080;border-radius:50%;background:
-radial-gradient(circle,#222733 0 14%,transparent 14.5%),
-linear-gradient(90deg,transparent 49.6%,#596172 49.7% 50.3%,transparent 50.4%),
-linear-gradient(0deg,transparent 49.6%,#596172 49.7% 50.3%,transparent 50.4%),
-#191d25;box-shadow:0 0 30px #000 inset;overflow:hidden;touch-action:none}
-.grid{position:absolute;inset:8%;border:1px dashed #414856;border-radius:4px}
-.player,.obj{position:absolute;transform:translate(-50%,-50%);z-index:5}
-.player{width:28px;height:28px;border-radius:50%;background:#55d6ff;border:3px solid white;box-shadow:0 0 12px #55d6ff}
-.obj{font-size:10px;text-align:center;font-weight:800}
-.aoe{position:absolute;transform:translate(-50%,-50%);border-radius:50%;background:#e64b5a55;border:2px solid #ef6673;z-index:2}
-.line{position:absolute;height:3px;background:#f4d35e;transform-origin:0 50%;z-index:3}
-.marker{position:absolute;transform:translate(-50%,-50%);width:34px;height:34px;border:2px dashed #ffdc5e;border-radius:50%;z-index:4}
-#toast{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);padding:12px 18px;border-radius:10px;background:#151821eF;text-align:center;font-weight:800;font-size:18px;z-index:20;display:none}
-#info{padding:7px 12px;background:#171a21;text-align:center;font-size:12px;min-height:39px}
-#controls{padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:#11141a;display:flex;gap:6px;flex-wrap:wrap}
-#controls button{flex:1;min-width:90px}
-.good{color:#72e6a2}.bad{color:#ff7985}.hint{color:#f4d35e}
-#log{font-size:11px;color:#aeb5c3;max-height:38px;overflow:hidden;padding:0 10px 4px}
+html,body{margin:0;height:100%;background:#0d1016;color:#f4f5f7;font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;overflow:hidden}
+#app{height:100dvh;max-width:760px;margin:auto;display:flex;flex-direction:column}
+header{padding:9px 12px 6px;background:#171b24;border-bottom:1px solid #303744}h1{font-size:15px;margin:0 0 2px}.small{font-size:10px;color:#aab2c0}
+#setup{padding:7px 10px;background:#12161e;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+select,button{font:inherit;background:#293140;color:#fff;border:1px solid #3c4657;border-radius:7px;padding:7px 9px}
+#phasebar{display:flex;align-items:center;gap:7px;padding:6px 10px;background:#171b24}#phase{font-weight:800;flex:1}.badge{font-size:11px;padding:4px 7px;background:#2b3240;border-radius:5px}
+#arena{position:relative;width:min(94vw,650px);aspect-ratio:1/1;margin:auto;background:#1b2029;border:2px solid #697486;overflow:hidden;touch-action:none;background-image:linear-gradient(#252b36 1px,transparent 1px),linear-gradient(90deg,#252b36 1px,transparent 1px);background-size:10% 10%}
+#arenaWrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:7px}
+.boss,.player,.member,.zone,.aoe,.line,.arm{position:absolute;transform:translate(-50%,-50%}
+.boss{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:900;z-index:4;border:2px solid #ddd}.eye{background:#5d6879;width:30px;height:30px}.om{background:#8b5bd1}.fom{background:#5b88d9}
+.player{width:27px;height:27px;border-radius:50%;background:#55d8ff;border:3px solid #fff;z-index:10;box-shadow:0 0 12px #55d8ff}.player:after{content:"自";font-size:10px;color:#071018;position:absolute;inset:0;display:grid;place-items:center;font-weight:900}
+.member{width:20px;height:20px;border-radius:50%;border:1px solid #c5cedb;z-index:7;font-size:8px;display:grid;place-items:center;background:#667083}.near{background:#65bd75}.far{background:#d08c4a}
+.line{height:3px;transform-origin:0 50%;z-index:3;border-radius:3px}.nearline{background:#5ee879}.farline{background:#e6a55b}.arm{height:5px;transform-origin:0 50%;background:#f1d05a;z-index:5}
+.aoe{border-radius:50%;background:#d94b5750;border:2px solid #e56a73;z-index:2}.zone{border:2px dashed #fff;z-index:6;border-radius:4px;background:#ffffff0a;text-align:center;font-size:9px;padding-top:3px}.good{border-color:#70e8a0}.bad{border-color:#ff6876}
+#toast{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);background:#11151def;border:1px solid #566173;border-radius:10px;padding:12px 18px;font-weight:900;font-size:18px;z-index:30;display:none;text-align:center}
+#info{padding:7px 11px;background:#171b24;min-height:48px;font-size:12px;text-align:center}#controls{display:flex;gap:6px;padding:7px 9px calc(7px + env(safe-area-inset-bottom));background:#0f1218}#controls button{flex:1}.primary{background:#3b63a8}
+#timeline{display:flex;gap:3px;padding:5px 8px;background:#0c0f14}.t{height:5px;flex:1;background:#343b48;border-radius:4px}.t.on{background:#70a9ff}
 </style>
 </head>
 <body>
 <div id="app">
-<header><div><h1>絶オメガ検証戦 P5 デルタ</h1><div class="sub">スマホ練習シミュレーター / 試作版</div></div><button onclick="resetRun()">リセット</button></header>
-<div id="hud"><span class="badge" id="timer">0.0s</span><span id="phase">開始</span><span class="badge" id="score">成功 0 / 0</span></div>
-<div id="arenaWrap"><div id="arena"><div class="grid"></div><div id="toast"></div><div id="player" class="player"></div></div></div>
-<div id="info"><span id="instruction">「開始」を押してデルタを練習</span></div>
-<div id="log"></div>
-<div id="controls"><button onclick="startRun()">開始</button><button onclick="togglePause()">一時停止</button><button onclick="showHint()">ヒント</button></div>
+<header><h1>絶オメガ検証戦 P5 デルタ｜ハムカツ式</h1><div class="small">デルタ前半 → ハローワールド散開 練習プロトタイプ</div></header>
+<div id="setup">
+<label>自分 <select id="role"><option>MT</option><option>ST</option><option>H1</option><option>H2</option><option>D1</option><option>D2</option><option>D3</option><option>D4</option></select></label>
+<label>線 <select id="debuff"><option value="near">ニア</option><option value="far">ファー</option></select></label>
+<label>HW <select id="hw"><option value="none">なし</option><option value="near">ハロワニア</option><option value="far">ハロワファー</option></select></label>
+<button onclick="randomize()">ランダム</button>
+</div>
+<div id="phasebar"><span id="phase">開始</span><span class="badge" id="clock">0.0s</span><span class="badge" id="result">0 / 0</span></div>
+<div id="timeline"><i class="t"></i><i class="t"></i><i class="t"></i><i class="t"></i><i class="t"></i><i class="t"></i><i class="t"></i></div>
+<div id="arenaWrap"><div id="arena">
+<div class="boss eye" style="left:50%;top:5%">目</div><div class="boss om" style="left:13%;top:50%">虫Ω</div><div class="boss fom" style="left:87%;top:50%">FΩ</div>
+<div class="player" id="player" style="left:50%;top:50%"></div><div id="toast"></div>
+</div></div>
+<div id="info">「開始」で実戦形式のデルタ練習。自キャラはフィールドをドラッグして移動。</div>
+<div id="controls"><button class="primary" onclick="start()">開始</button><button onclick="pause()">一時停止</button><button onclick="hint()">今の判断</button><button onclick="resetRun()">リセット</button></div>
 </div>
 <script>
-const arena=document.querySelector('#arena'), p=document.querySelector('#player');
-const phaseEl=document.querySelector('#phase'), timerEl=document.querySelector('#timer'), scoreEl=document.querySelector('#score');
-const info=document.querySelector('#instruction'), toast=document.querySelector('#toast'), logEl=document.querySelector('#log');
-let x=.5,y=.5,running=false,paused=false,start=0,timer=0,raf=null,step=0,score=0,tries=0,markers=[],aoes=[],lines=[];
-const steps=[
- {t:0, name:"開幕", text:"中央付近で開始。次のギミックに備える。", dur:2.5},
- {t:2.5,name:"ロケットパンチ",text:"パンチ対象から離れ、指定方向へ移動。",dur:4},
- {t:6.5,name:"検知",text:"検知マーカーを処理。重ならないように位置調整。",dur:4},
- {t:10.5,name:"パイルピッチ",text:"自分の対象位置を確認し、担当地点へ。",dur:4},
- {t:14.5,name:"ハローワールド",text:"デバフを確認して所定位置へ。",dur:7},
- {t:21.5,name:"判定",text:"デルタ完走判定。",dur:2}
-];
-function pos(){
- p.style.left=(x*100)+'%';p.style.top=(y*100)+'%';
+const arena=document.querySelector('#arena'),p=document.querySelector('#player'),roleEl=document.querySelector('#role'),debuffEl=document.querySelector('#debuff'),hwEl=document.querySelector('#hw');
+const phaseEl=document.querySelector('#phase'),info=document.querySelector('#info'),clock=document.querySelector('#clock'),result=document.querySelector('#result'),toast=document.querySelector('#toast'),bars=[...document.querySelectorAll('.t')];
+let x=.5,y=.5,running=false,paused=false,started=0,elapsed=0,phase=-1,score=0,tries=0,raf=0,checked=new Set(),rotation='L';
+const phases=[[0,1.8,'初期散開','ニア／ファーを確認。虫Ω＝西、FΩ＝東。'],[1.8,5,'ロケットパンチ','パンチ色を確認。ハムカツ式は内側ペアが調整。'],[5,7.8,'アーム＆バッシュ','ニア＋外側ファー6人がアーム誘導。内側ファー2人はバッシュ側。'],[7.8,10.7,'検知＋パイルピッチ','検知対象と担当側の頭割り位置へ。'],[10.7,13.6,'旋回式波動砲','予兆を見て半面安置へ。線切りのタイミングに注意。'],[13.6,17.8,'ハローワールド','自分のハロワ種別を確認。ニア／ファーの距離を保つ。'],[17.8,19.2,'ハロワ発動','散開位置を維持して処理。']];
+function clear(){document.querySelectorAll('.member,.line,.aoe,.arm,.zone').forEach(e=>e.remove())}
+function make(cls,px,py,text=''){let e=document.createElement('div');e.className=cls;e.style.left=px*100+'%';e.style.top=py*100+'%';e.textContent=text;arena.append(e);return e}
+function line(x1,y1,x2,y2,cls){let e=make('line '+cls,x1,y1);let dx=x2-x1,dy=y2-y1;e.style.width=Math.hypot(dx,dy)*100+'%';e.style.transform=`rotate(${Math.atan2(dy,dx)}rad)`;return e}
+function zone(px,py,w,h,label){let e=make('zone',px,py,label);e.style.width=w*100+'%';e.style.height=h*100+'%';return e}
+function members(){const roles=['MT','ST','H1','H2','D1','D2','D3','D4'],near=['MT','H1','D1','D4'],spots=[[.44,.18],[.56,.18],[.42,.30],[.58,.30],[.42,.70],[.58,.70],[.44,.82],[.56,.82]];roles.forEach((r,i)=>{if(r===roleEl.value)return;make('member '+(near.includes(r)?'near':'far'),spots[i][0],spots[i][1],r)})}
+function render(i){clear();members();
+if(i===0)info.textContent='ニア／ファーを確認。初期位置は目安。北＝目、左＝虫Ω、右＝FΩ。';
+if(i===1){[.30,.70].forEach(xx=>{let a=make('aoe',xx,.5);a.style.width=a.style.height='18%'});line(.2,.25,.8,.25,'farline');line(.2,.75,.8,.75,'nearline');info.textContent='ロケパン：パンチ色を見て、内側ペアが調整。場所は早い者勝ち。'}
+if(i===2){for(let yy of [.18,.82]){let a=make('arm',.25,yy);a.style.width='55%';a.style.transform=`rotate(${rotation==='L'?0:Math.PI}rad)`}zone(.38,.22,.16,.14,'アーム');zone(.38,.78,.16,.14,'アーム');info.textContent='アーム：ニア＋外側ファー6人が外周誘導。内側ファー2人はバッシュ側。'}
+if(i===3){let a=make('aoe',.13,.5);a.style.width=a.style.height='22%';zone(.31,.5,.18,.18,'ニア頭割り');zone(.69,.5,.18,.18,'ファー頭割り');info.textContent='検知＋パイルピッチ。検知対象を確認し、担当側の頭割りへ。'}
+if(i===4){zone(rotation==='L'?.32:.68,.5,.22,.75,'安置');info.textContent='旋回式波動砲：予兆を見て安置へ。ニア線は合流時の切断タイミングを意識。'}
+if(i>=5){zone(.30,.34,.18,.12,'HWファー');zone(.52,.34,.18,.12,'HWニア');zone(.70,.66,.18,.12,'元ニア外');zone(.54,.66,.18,.12,'元ファー');line(.40,.34,.82,.34,'nearline');line(.40,.66,.82,.66,'farline');info.textContent=i===5?'ハロワ散開：ニア／ファーの距離を保つ。自分のHW種別に応じた持ち場へ。':'ハロワ発動。散開位置を維持し、デルタ完了。'}
 }
-function clearFX(){markers.forEach(e=>e.remove());aoes.forEach(e=>e.remove());lines.forEach(e=>e.remove());markers=[];aoes=[];lines=[]}
-function mkMarker(px,py,label=""){let e=document.createElement('div');e.className='marker';e.style.left=px*100+'%';e.style.top=py*100+'%';e.textContent=label;arena.append(e);markers.push(e)}
-function mkAoe(px,py,r=.12){let e=document.createElement('div');e.className='aoe';e.style.left=px*100+'%';e.style.top=py*100+'%';e.style.width=e.style.height=(r*200)+'%';arena.append(e);aoes.push(e)}
-function setPhase(i){
- step=i; clearFX(); phaseEl.textContent=steps[i].name; info.textContent=steps[i].text;
- if(i===1){mkAoe(.28,.5,.14);mkAoe(.72,.5,.14)}
- if(i===2){mkMarker(.25,.25,"検知");mkMarker(.75,.75,"検知")}
- if(i===3){mkMarker(.25,.75,"P");mkMarker(.75,.25,"P")}
- if(i===4){mkMarker(.22,.5,"HW");mkMarker(.78,.5,"HW");}
-}
-function log(s,good=false){logEl.innerHTML='<span class="'+(good?'good':'')+'">'+s+'</span>'}
-function toastMsg(s,good){toast.textContent=s;toast.style.display='block';toast.className=good?'good':'bad';setTimeout(()=>toast.style.display='none',900)}
-function evaluate(i){
- // prototype safety zones, intentionally forgiving
- let ok=true;
- if(i===1) ok=!((x>.15&&x<.42)&&(y>.36&&y<.64)) && !((x>.58&&x<.85)&&(y>.36&&y<.64));
- if(i===2) ok=!((x>.16&&x<.38&&y>.16&&y<.38)||(x>.62&&x<.84&&y>.62&&y<.84));
- if(i===3) ok=(x<.45||x>.55);
- if(i===4) ok=(x<.38||x>.62);
- tries++;
- if(ok){score++;toastMsg("処理成功！",true);log("GOOD：位置判定を通過",true)}else{toastMsg("処理失敗",false);log("NG：位置判定に失敗")}
- scoreEl.textContent=`成功 ${score} / ${tries}`;
-}
-function tick(now){
- if(!running)return;
- if(!paused){
-  timer=(now-start)/1000;timerEl.textContent=timer.toFixed(1)+'s';
-  let i=steps.findIndex((s,j)=>timer>=s.t && timer<s.t+s.dur);
-  if(i<0 && timer>=steps[steps.length-1].t+steps[steps.length-1].dur){finish();return}
-  if(i>=0 && i!==step)setPhase(i);
-  if(i>=0 && i!==0 && Math.abs(timer-(steps[i].t))<.035 && !steps[i].checked){steps[i].checked=true;evaluate(i)}
- }
- raf=requestAnimationFrame(tick)
-}
-function startRun(){resetRun(false);running=true;paused=false;start=performance.now();steps.forEach(s=>delete s.checked);setPhase(0);raf=requestAnimationFrame(tick)}
-function resetRun(full=true){running=false;paused=false;cancelAnimationFrame(raf);timer=0;timerEl.textContent='0.0s';x=.5;y=.5;pos();step=0;setPhase(0);if(full){info.textContent='「開始」を押してデルタを練習';log('待機中')}}
-function finish(){running=false;phaseEl.textContent='完走';info.textContent='デルタ終了。もう一度「開始」で再挑戦。';log('RUN END：成功 '+score+' / '+tries,true);toastMsg('完走！',true)}
-function togglePause(){if(!running)return;paused=!paused;if(!paused)start=performance.now()-timer*1000;info.textContent=paused?'一時停止中':'再開';}
-function showHint(){if(!running){info.textContent='まず「開始」を押してね';return} const s=steps[step]; info.textContent='ヒント：'+s.text}
-arena.addEventListener('pointerdown',e=>{if(!running||paused)return;move(e)})
-arena.addEventListener('pointermove',e=>{if(!running||paused||e.buttons===0)return;move(e)})
-function move(e){const r=arena.getBoundingClientRect();let nx=(e.clientX-r.left)/r.width,ny=(e.clientY-r.top)/r.height;let dx=nx-.5,dy=ny-.5;let d=Math.hypot(dx,dy);if(d>.47){nx=.5+dx/d*.47;ny=.5+dy/d*.47}x=Math.max(.03,Math.min(.97,nx));y=Math.max(.03,Math.min(.97,ny));pos()}
-pos();setPhase(0);
+function target(){let d=debuffEl.value,h=hwEl.value;if(phase<=0)return{x:.5,y:.3,w:.5,h:.4};if(phase===1)return d==='near'?{x:.60,y:.30,w:.22,h:.18}:{x:.40,y:.30,w:.22,h:.18};if(phase===2)return d==='near'?{x:.38,y:.22,w:.16,h:.14}:{x:.60,y:.22,w:.16,h:.14};if(phase===3)return d==='near'?{x:.31,y:.5,w:.18,h:.18}:{x:.69,y:.5,w:.18,h:.18};if(phase===4)return rotation==='L'?{x:.32,y:.5,w:.22,h:.75}:{x:.68,y:.5,w:.22,h:.75};if(h==='near')return{x:.52,y:.34,w:.18,h:.12};if(h==='far')return{x:.30,y:.34,w:.18,h:.12};return d==='near'?{x:.70,y:.66,w:.18,h:.12}:{x:.54,y:.66,w:.18,h:.12}}
+function inside(t){return x>t.x-t.w/2&&x<t.x+t.w/2&&y>t.y-t.h/2&&y<t.y+t.h/2}
+function evaluate(i){let ok=inside(target());tries++;if(ok)score++;result.textContent=`${score} / ${tries}`;toast.textContent=ok?'処理成功！':'位置ミス';toast.style.display='block';setTimeout(()=>toast.style.display='none',650)}
+function setPhase(i){phase=i;phaseEl.textContent=phases[i][2];bars.forEach((b,n)=>b.classList.toggle('on',n<=i));render(i)}
+function loop(now){if(!running)return;if(!paused){elapsed=(now-started)/1000;clock.textContent=elapsed.toFixed(1)+'s';let i=phases.findIndex(s=>elapsed>=s[0]&&elapsed<s[1]);if(i!==phase)setPhase(i);if(i>0&&!checked.has(i)){checked.add(i);evaluate(i)}if(elapsed>=phases[6][1]){finish();return}}raf=requestAnimationFrame(loop)}
+function start(){resetRun(false);rotation=Math.random()<.5?'L':'R';running=true;started=performance.now();setPhase(0);raf=requestAnimationFrame(loop)}
+function pause(){if(!running)return;paused=!paused;if(!paused)started=performance.now()-elapsed*1000}
+function finish(){running=false;phaseEl.textContent='完走';info.textContent=`デルタ完走。成功 ${score}/${tries}。開始で再挑戦。`}
+function resetRun(full=true){running=false;paused=false;cancelAnimationFrame(raf);elapsed=0;clock.textContent='0.0s';phase=-1;checked.clear();x=.5;y=.5;p.style.left='50%';p.style.top='50%';render(0);bars.forEach(b=>b.classList.remove('on'));phaseEl.textContent='開始';if(full)info.textContent='「開始」で実戦形式のデルタ練習。'}
+function randomize(){const roles=['MT','ST','H1','H2','D1','D2','D3','D4'];roleEl.value=roles[Math.floor(Math.random()*8)];debuffEl.value=Math.random()<.5?'near':'far';let q=Math.random();hwEl.value=q<.45?'none':q<.725?'near':'far';info.textContent=`ランダム：${roleEl.value} / ${debuffEl.value==='near'?'ニア':'ファー'} / HW ${hwEl.value}`}
+function hint(){info.textContent=hwEl.value==='near'?'ヒント：ハロワニアの持ち場を優先。ニア／ファーの距離を保つ。':hwEl.value==='far'?'ヒント：ハロワファーは外側の距離を確保。':'ヒント：ハロワなし。元のニア／ファー位置関係を崩さない。'}
+function move(e){if(!running||paused)return;let r=arena.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width,ny=(e.clientY-r.top)/r.height;x=Math.max(.03,Math.min(.97,nx));y=Math.max(.03,Math.min(.97,ny));p.style.left=x*100+'%';p.style.top=y*100+'%'}
+arena.addEventListener('pointerdown',move);arena.addEventListener('pointermove',e=>{if(e.buttons)move(e)});render(0)
 </script>
 </body></html>
